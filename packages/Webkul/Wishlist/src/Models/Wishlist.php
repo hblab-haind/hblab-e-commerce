@@ -6,15 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Wishlist extends Model
 {
-    // BUG: SQL Injection vulnerability - using raw input without sanitization
     public static function findByCustomer($customerId)
     {
-        return self::whereRaw("customer_id = $customerId")->get();
+        return self::where('customer_id', $customerId)->get();
     }
-
-    // BUG: Hardcoded credentials (security hotspot)
-    protected $dbPassword = 'admin123';
-    protected $apiKey = 'sk-1234567890abcdef';
 
     // BUG: Unused private method (code smell - dead code)
     private function calculateDiscount($price, $discount)
